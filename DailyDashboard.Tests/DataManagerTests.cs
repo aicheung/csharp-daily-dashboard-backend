@@ -19,7 +19,7 @@ public class DataManagerTests
         var fetcherMock = new Mock<IDailyDataFetcher>();
         DailyDataPoint dp = new DailyDataPoint();
         dp.Id = "WebbSite";
-        dp.Value = "111";
+        dp.Value = 111;
         fetcherMock.Setup(p => p.FetchData()).Returns(dp);
         var providerMock = new WebbSiteDataProvider(fetcherMock.Object);
         IDailyDataProvider pv = providerMock;
@@ -27,6 +27,6 @@ public class DataManagerTests
         
         List<DailyDataPoint> latestData = mgr.GetData();
         Assert.NotEmpty(latestData);
-        Assert.Equal("111", latestData[0].Value);
+        Assert.Equal(111, latestData[0].Value);
     }
 }

@@ -1,5 +1,6 @@
 namespace DailyDashboard.Data;
 
+using System.Globalization;
 using HtmlAgilityPack;
 
 public class WebbSiteDataFetcher: IDailyDataFetcher
@@ -9,10 +10,9 @@ public class WebbSiteDataFetcher: IDailyDataFetcher
     private string dateXPath = "//body/div[4]/table/tr[2]/td[1]";
     private string dataId = "webbSiteDailyHKResidentAirportPassengerCount";
 
-    public DailyDataPoint FetchData() 
+    public override DailyDataPoint FetchData() 
     {
-        var web = new HtmlWeb();
-        var doc = web.Load(url);
+        var doc = this.GetHtmlDocument(url);
 
         var valueNode = doc.DocumentNode.SelectSingleNode(valueXPath);
         var dateNode = doc.DocumentNode.SelectSingleNode(dateXPath);
@@ -21,7 +21,7 @@ public class WebbSiteDataFetcher: IDailyDataFetcher
         {
             Id = dataId,
             Time = DateTime.Parse(dateNode?.InnerText),
-            Value = valueNode?.InnerText
+            Value = int.Parse(valueNode?.InnerText, NumberStyles.AllowThousands | NumberStyles.AllowLeadingSign, CultureInfo.InvariantCulture)
         };
     }
 }

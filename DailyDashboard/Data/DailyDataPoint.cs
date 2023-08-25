@@ -14,7 +14,7 @@ public class DailyDataPoint
         set;
     }
 
-    public string Value
+    public int Value
     {
         get;
         set;
