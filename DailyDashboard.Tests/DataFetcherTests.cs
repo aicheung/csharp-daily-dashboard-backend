@@ -33,4 +33,20 @@ public class DataFetcherTests
         int jobs = data.Value;
         Assert.True(jobs > 0 && jobs <= int.MaxValue);
     }
+
+    [Fact]
+    public void ShouldFetchHomeOfficeBoatArrivals()
+    {
+        IDailyDataFetcher fetcher = new HomeOfficeBoatArrivalsDataFetcher();
+        DailyDataPoint data = fetcher.FetchData();
+        Assert.NotNull(data);
+        Assert.NotNull(data.Id);
+        Assert.NotEmpty(data.Id);
+        Assert.NotNull(data.Time);
+        //Home Office should have data by now
+        Assert.True(DateTime.Compare(DateTime.Now.AddDays(-2.0), data.Time) < 0);
+        Assert.NotNull(data.Value);
+        int arrivals = data.Value;
+        Assert.True(arrivals >= 0 && arrivals <= int.MaxValue);
+    }
 }
